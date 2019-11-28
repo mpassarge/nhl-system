@@ -9,5 +9,4 @@ public class NhlApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NhlApplication.class, args);
 	}
-
 }
