@@ -1,7 +1,7 @@
 package com.passargecorp.nhl.repository;
 
 import com.passargecorp.nhl.configuration.NhlApiConfiguration;
-import com.passargecorp.nhl.dto.ScheduleDto;
+import com.passargecorp.nhl.dto.schedule.ScheduleDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;

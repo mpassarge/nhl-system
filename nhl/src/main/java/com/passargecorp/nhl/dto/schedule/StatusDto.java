@@ -1,4 +1,4 @@
-package com.passargecorp.nhl.dto;
+package com.passargecorp.nhl.dto.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
