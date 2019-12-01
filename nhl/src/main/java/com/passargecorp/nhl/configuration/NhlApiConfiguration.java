@@ -14,6 +14,7 @@ public class NhlApiConfiguration {
 
     private String url;
     private String schedule;
+    private String team;
 
     // TODO: find out how to do constructor injection
 
@@ -25,11 +26,23 @@ public class NhlApiConfiguration {
         this.schedule = schedule;
     }
 
+    public void setTeam(final String team) {
+        this.team = team;
+    }
+
     public String getScheduleWithDate(final String date) {
         return UriComponentsBuilder.fromHttpUrl(getScheduleUrl()).queryParam("date", date).toUriString();
     }
 
+    public String getTeam() {
+        return UriComponentsBuilder.fromHttpUrl(getTeamUrl()).toUriString();
+    }
+
     private String getScheduleUrl() {
         return url + schedule;
+    }
+
+    private String getTeamUrl() {
+        return url + team;
     }
 }
