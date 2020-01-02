@@ -1,12 +1,12 @@
 package com.passargecorp.nhl.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.passargecorp.nhl.dto.schedule.GameDateDto;
-import com.passargecorp.nhl.dto.schedule.GameDto;
 import com.passargecorp.nhl.dto.schedule.ScheduleDto;
-import com.passargecorp.nhl.entity.GameEntity;
+import com.passargecorp.nhl.dto.team.TeamWrapperDto;
+import com.passargecorp.nhl.entity.schedule.GameEntity;
+import com.passargecorp.nhl.entity.schedule.TeamInfoEntity;
 import com.passargecorp.nhl.entity.mappers.GameEntityMappers;
 import com.passargecorp.nhl.repository.NhlRepository;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.passargecorp.nhl.entity;
+package com.passargecorp.nhl.entity.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

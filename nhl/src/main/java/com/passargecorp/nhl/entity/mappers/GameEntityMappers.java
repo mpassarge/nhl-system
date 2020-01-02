@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.passargecorp.nhl.dto.schedule.GameDto;
-import com.passargecorp.nhl.dto.schedule.ScheduleDto;
 import com.passargecorp.nhl.dto.schedule.StatusDto;
 import com.passargecorp.nhl.dto.schedule.TeamDto;
 import com.passargecorp.nhl.dto.schedule.TeamInfoDto;
 import com.passargecorp.nhl.dto.schedule.TeamsDto;
-import com.passargecorp.nhl.entity.GameEntity;
-import com.passargecorp.nhl.entity.StatusEntity;
-import com.passargecorp.nhl.entity.TeamEntity;
-import com.passargecorp.nhl.entity.TeamInfoEntity;
-import com.passargecorp.nhl.entity.TeamsEntity;
+import com.passargecorp.nhl.entity.schedule.GameEntity;
+import com.passargecorp.nhl.entity.schedule.StatusEntity;
+import com.passargecorp.nhl.entity.schedule.TeamEntity;
+import com.passargecorp.nhl.entity.schedule.TeamInfoEntity;
+import com.passargecorp.nhl.entity.schedule.TeamsEntity;
 
 public class GameEntityMappers {
 

@@ -1,10 +1,9 @@
-package com.passargecorp.nhl.entity;
+package com.passargecorp.nhl.entity.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @NoArgsConstructor
 @AllArgsConstructor
