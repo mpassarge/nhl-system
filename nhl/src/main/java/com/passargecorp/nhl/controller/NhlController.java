@@ -8,6 +8,8 @@ import com.passargecorp.nhl.repository.NhlRepository;
 import com.passargecorp.nhl.service.NhlService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/nhl")
 public class NhlController {
 
+    private static final Logger logger = LoggerFactory.getLogger(NhlController.class);
     private static final String DATE_PATTERN_STRING = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
     private NhlRepository nhlRepository;
@@ -26,7 +29,8 @@ public class NhlController {
 
     @GetMapping("/games")
     public ResponseEntity<List<GameEntity>> getScheduleByDate(@RequestParam final String date) {
-
+        logger.info("Received request for games for date {}", date);
+        
         // Validate Date Pattern
         Validate.matchesPattern(date, DATE_PATTERN_STRING, "Date does not match pattern", date);
 
