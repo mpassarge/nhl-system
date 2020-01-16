@@ -20,11 +20,11 @@ A service to to deal with nhl api
       },
       "teams" : {
          "away" : {
+            "score" : 2,
             "team" : {
                "id" : 18,
                "name" : "Nashville Predators"
-            },
-            "score" : 2
+            }
          },
          "home" : {
             "score" : 4,
