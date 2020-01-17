@@ -4,6 +4,9 @@ jdk: openjdk8
 services:
   - docker
 
+cache:
+  - $MAVEN_HOME/.m2/repositories
+
 script:
   - ./mvnw clean package
 
