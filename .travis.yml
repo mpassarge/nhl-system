@@ -6,6 +6,6 @@ script:
 
 deploy:
   provider: script
-  script: ./mvnw deploy -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_PASSWORD
+  script: ./mvnw deploy -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_TOKEN
   on:
     branch: master
