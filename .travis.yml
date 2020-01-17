@@ -1,11 +1,14 @@
 language: java
 jdk: openjdk8
 
+services:
+  - docker
+
 script:
   - ./mvnw clean package
 
 deploy:
   provider: script
-  script: ./mvnw deploy -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_TOKEN
+  script: bash ./docker-deploy.sh
   on:
     branch: master
