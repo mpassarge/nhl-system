@@ -3,4 +3,7 @@ jdk: openjdk8
 
 stages:
   - build
-    script: ./mvnw clean verify -B
+  script: ./mvnw clean verify -B
+  - deploy
+  if: branch = master
+  script: ./mvnw docker:push -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_PASSWORD
