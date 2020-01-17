@@ -88,21 +88,21 @@
                             </images>
                         </configuration>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>latest-build-push</id>-->
-<!--                        <phase>deploy</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>build</goal>-->
-<!--                            <goal>push</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <images>-->
-<!--                                <image>-->
-<!--                                    <name>mpassarge/nhl-system:latest</name>-->
-<!--                                </image>-->
-<!--                            </images>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
+                    <execution>
+                        <id>latest-build</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>mpassarge/nhl-system:latest</name>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

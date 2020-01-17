@@ -1,9 +1,11 @@
 language: java
 jdk: openjdk8
 
-stages:
-  - build
-  script: ./mvnw clean verify -B
-  - deploy
-  if: branch = master
-  script: ./mvnw docker:push -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_PASSWORD
+script:
+  - ./mvnw clean package
+
+deploy:
+  provider: script
+  script: ./mvnw deploy -Ddocker.username=$DOCKER_USERNAME -Ddocker.password=$DOCKER_PASSWORD
+  on:
+    branch: master
