@@ -10,6 +10,7 @@ jobs:
         - $MAVEN_HOME/.m2/repositories
       script:
         - ./mvnw clean package
+        - docker images
     - stage: deploy
       branches:
         only:
@@ -20,4 +21,5 @@ jobs:
         - pip install pipenv
         - pipenv install
       script:
-        - python deploy.py
+        - docker images
+        - python deploy/deploy.py
