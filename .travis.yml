@@ -1,17 +1,23 @@
-language: java
-jdk: openjdk8
-
 services:
   - docker
 
-cache:
-  - $MAVEN_HOME/.m2/repositories
-
-script:
-  - ./mvnw clean package
-
-deploy:
-  provider: script
-  script: bash ./docker-deploy.sh
-  on:
-    branch: master
+jobs:
+  include:
+    - stage: build
+      language: java
+      cache:
+        directories:
+        - $MAVEN_HOME/.m2/repositories
+      script:
+        - ./mvnw clean package
+    - stage: deploy
+      branches:
+        only:
+          - master
+      language: python
+      python: "3.8"
+      install:
+        - pip install pipenv
+        - pipenv install
+      script:
+        - python deploy.py

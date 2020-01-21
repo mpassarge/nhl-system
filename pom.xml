@@ -76,6 +76,8 @@
         </plugins>
     </build>
 
+    <!--todo: Only build single version image!!!-->
+
     <profiles>
         <profile>
             <id>dev</id>
@@ -100,69 +102,6 @@
                                         <images>
                                             <image>
                                                 <name>mpassarge/nhl-system:${project.version}</name>
-                                            </image>
-                                        </images>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>latest-build</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                    </goals>
-                                    <configuration>
-                                        <images>
-                                            <image>
-                                                <name>mpassarge/nhl-system:latest</name>
-                                            </image>
-                                        </images>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${fabric8.version}</version>
-                            <executions>
-                                <execution>
-                                    <id>version-build</id>
-                                    <phase>deploy</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                        <goal>push</goal>
-                                    </goals>
-                                    <configuration>
-                                        <images>
-                                            <image>
-                                                <name>mpassarge/nhl-system:${project.version}</name>
-                                            </image>
-                                        </images>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>latest-build</id>
-                                    <phase>deploy</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                        <goal>push</goal>
-                                    </goals>
-                                    <configuration>
-                                        <images>
-                                            <image>
-                                                <name>mpassarge/nhl-system:latest</name>
                                             </image>
                                         </images>
                                     </configuration>
