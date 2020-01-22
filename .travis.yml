@@ -7,7 +7,7 @@ jobs:
       language: java
       cache:
         directories:
-        - $MAVEN_HOME/.m2/repositories
+          - $HOME/.m2
       script:
         - ./mvnw clean package
         - docker images
