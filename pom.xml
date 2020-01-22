@@ -18,6 +18,7 @@
     <properties>
         <java.version>1.8</java.version>
         <fabric8.version>0.32.0</fabric8.version>
+        <docker.buildArg.JAR_FILE>target/nhl-system.jar</docker.buildArg.JAR_FILE>
     </properties>
 
     <dependencies>
@@ -59,6 +60,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.artifactId}</finalName>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -93,17 +97,26 @@
                             <version>${fabric8.version}</version>
                             <executions>
                                 <execution>
-                                    <id>version-build</id>
                                     <phase>package</phase>
                                     <goals>
                                         <goal>build</goal>
+                                        <goal>push</goal>
                                     </goals>
                                     <configuration>
+                                        <authConfig>
+                                            <username>${env.DOCKER_USERNAME}</username>
+                                            <password>${env.DOCKER_TOKEN}</password>
+                                        </authConfig>
                                         <images>
                                             <image>
+                                                <build>
+                                                    <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                                                    <tags>latest</tags>
+                                                </build>
                                                 <name>mpassarge/nhl-system:${project.version}</name>
                                             </image>
                                         </images>
+
                                     </configuration>
                                 </execution>
                             </executions>
