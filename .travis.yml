@@ -1,19 +1,17 @@
+language: java
+
 services:
   - docker
 
-jobs:
-  include:
-    - stage: build
-      language: java
-      cache:
-        directories:
-          - $HOME/.m2
-      script:
-        - ./mvnw clean package
-    - stage: deploy
-      script:
-        - bash ./scripts/version-validation.sh
-        - bash ./scripts/deploy.sh
-      branches:
-        only:
-          - master
+cache:
+  directories:
+    - $HOME/.m2
+
+script:
+  - ./mvnw clean package
+
+deploy:
+  provider: script
+  script: ./scripts/deploy.sh
+  on:
+    branch: master
