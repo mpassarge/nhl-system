@@ -10,16 +10,10 @@ jobs:
           - $HOME/.m2
       script:
         - ./mvnw clean package
-        - docker images
     - stage: deploy
+      script:
+        - bash ./scripts/version-validation.sh
+        - bash ./scripts/deploy.sh
       branches:
         only:
           - master
-      language: python
-      python: "3.8"
-      install:
-        - pip install pipenv
-        - pipenv install
-      script:
-        - docker images
-        - python deploy/deploy.py
