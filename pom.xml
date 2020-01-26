@@ -75,28 +75,84 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>${fabric8.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <build>
-                                        <dockerFile>${project.basedir}/Dockerfile</dockerFile>
-                                        <tags>latest</tags>
-                                    </build>
-                                    <name>mpassarge/nhl-system:${project.version}</name>
-                                </image>
-                            </images>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${fabric8.version}</version>
+                            <executions>
+                                <execution>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                    <configuration>
+                                        <images>
+                                            <image>
+                                                <build>
+                                                    <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                                                </build>
+                                                <name>mpassarge/nhl-system:${project.version}</name>
+                                            </image>
+                                        </images>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${fabric8.version}</version>
+                            <executions>
+                                <execution>
+                                    <phase>deploy</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                        <goal>push</goal>
+                                    </goals>
+                                    <configuration>
+                                        <authConfig>
+                                            <username>${env.DOCKER_USERNAME}</username>
+                                            <password>${env.DOCKER_TOKEN}</password>
+                                        </authConfig>
+                                        <images>
+                                            <image>
+                                                <build>
+                                                    <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                                                    <tags>latest</tags>
+                                                </build>
+                                                <name>mpassarge/nhl-system:${project.version}</name>
+                                            </image>
+                                        </images>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

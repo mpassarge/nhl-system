@@ -1,17 +1,27 @@
 language: java
-
-services:
-  - docker
+jdk:
+  - openjdk8
 
 cache:
   directories:
     - $HOME/.m2
 
-script:
-  - ./mvnw clean package
+services:
+  - docker
 
-deploy:
-  provider: script
-  script: cd scripts & ./deploy.sh
-  on:
-    branch: master
+jobs:
+  include:
+    - stage: dev
+      script:
+        - ./mvnw clean verify -Pdev
+      branches:
+        except:
+          - master
+    - stage: prod
+      before_script:
+        - bash scripts/docker-version-validation.sh
+      script:
+        - ./mvnw clean deploy -Pprod
+      branches:
+        only:
+          - master
