@@ -9,6 +9,10 @@ cache:
 services:
   - docker
 
+os: linux
+
+arch: arm64
+
 jobs:
   include:
     - stage: dev
