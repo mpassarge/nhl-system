@@ -1,4 +1,4 @@
-FROM arm64v8/openjdk:8-jre-alpine
+FROM arm64v8/openjdk:11-jre
 WORKDIR /app
 
 ARG JAR_FILE
