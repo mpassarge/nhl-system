@@ -6,7 +6,9 @@ import java.util.Map;
 
 import com.passargecorp.nhl.entity.schedule.GameEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ScheduleGameCacheRepository {
 
     private Map<String, List<GameEntity>> gameEntityMap = new HashMap<>();
