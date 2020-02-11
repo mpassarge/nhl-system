@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: dev
       script:
-        - ./mvnw clean verify -Pdev
+        - ./mvnw clean verify -Pdev -Drevision=
       branches:
         except:
           - master
@@ -21,7 +21,7 @@ jobs:
       before_script:
         - bash scripts/docker-version-validation.sh
       script:
-        - ./mvnw clean deploy -Pprod
+        - ./mvnw clean deploy -Pprod -Drevision=
       branches:
         only:
           - master
