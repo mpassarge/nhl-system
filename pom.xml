@@ -5,28 +5,24 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.1.RELEASE</version>
+        <version>2.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.passargecorp.nhl</groupId>
     <artifactId>nhl-system</artifactId>
-    <version>1.0.0${revision}</version>
+    <version>1.0.0$</version>
     <name>nhl-system</name>
     <description>Holds all NHL api connections and DB connections</description>
 
     <properties>
-        <revision>-SNAPSHOT</revision>
         <java.version>1.8</java.version>
-        <fabric8.version>0.32.0</fabric8.version>
-        <docker.buildArg.JAR_FILE>target/nhl-system.jar</docker.buildArg.JAR_FILE>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,8 +32,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -65,95 +61,7 @@
                     <finalName>${project.artifactId}</finalName>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${fabric8.version}</version>
-                            <executions>
-                                <execution>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                    </goals>
-                                    <configuration>
-                                        <images>
-                                            <image>
-                                                <build>
-                                                    <dockerFile>${project.basedir}/Dockerfile</dockerFile>
-                                                </build>
-                                                <name>mpassarge/nhl-system:${project.version}</name>
-                                            </image>
-                                        </images>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${fabric8.version}</version>
-                            <executions>
-                                <execution>
-                                    <phase>deploy</phase>
-                                    <goals>
-                                        <goal>build</goal>
-                                        <goal>push</goal>
-                                    </goals>
-                                    <configuration>
-                                        <authConfig>
-                                            <username>${env.DOCKER_USERNAME}</username>
-                                            <password>${env.DOCKER_TOKEN}</password>
-                                        </authConfig>
-                                        <images>
-                                            <image>
-                                                <build>
-                                                    <dockerFile>${project.basedir}/Dockerfile</dockerFile>
-                                                    <tags>latest</tags>
-                                                </build>
-                                                <name>mpassarge/nhl-system:${project.version}</name>
-                                            </image>
-                                        </images>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
