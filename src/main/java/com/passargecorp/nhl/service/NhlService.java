@@ -1,11 +1,15 @@
 package com.passargecorp.nhl.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.passargecorp.nhl.dto.schedule.GameDateDto;
 import com.passargecorp.nhl.dto.schedule.ScheduleDto;
+import com.passargecorp.nhl.dto.standings.StandingsDto;
+import com.passargecorp.nhl.entity.mappers.StandingsEntityMapper;
 import com.passargecorp.nhl.entity.schedule.GameEntity;
 import com.passargecorp.nhl.entity.mappers.GameEntityMappers;
+import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
 import com.passargecorp.nhl.repository.ScheduleGameCacheRepository;
 import com.passargecorp.nhl.repository.NhlRepository;
 import lombok.AllArgsConstructor;
@@ -19,9 +23,10 @@ import org.springframework.stereotype.Service;
 public class NhlService {
 
     private static final Logger logger = LoggerFactory.getLogger(NhlService.class);
+    private static final List<String> DIVISIONS_LIST = Arrays.asList("central", "east", "north", "west");
 
-    private ScheduleGameCacheRepository gameCacheRepository;
-    private NhlRepository nhlRepository;
+    private final ScheduleGameCacheRepository gameCacheRepository;
+    private final NhlRepository nhlRepository;
 
     public List<GameEntity> getGamesByDate(final String date){
 
@@ -37,6 +42,11 @@ public class NhlService {
         gameCacheRepository.addGameEntity(date, games);
 
         return games;
+    }
+
+    public List<DivisionStandingsEntity> getDivisionStandings() {
+        final StandingsDto standingsDto = nhlRepository.getStandings();
+        return StandingsEntityMapper.standingsDtoToDivisionStandingsEntityList(standingsDto);
     }
 
     private void validateScheduleDto(final ScheduleDto scheduleDto) {

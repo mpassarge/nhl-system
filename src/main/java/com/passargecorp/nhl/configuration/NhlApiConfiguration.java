@@ -15,8 +15,14 @@ public class NhlApiConfiguration {
     private String url;
     private String schedule;
     private String team;
+    private String standings;
 
     // TODO: find out how to do constructor injection
+
+    public NhlApiConfiguration setStandings(String standings) {
+        this.standings = standings;
+        return this;
+    }
 
     public void setUrl(final String url) {
         this.url = url;
@@ -44,5 +50,9 @@ public class NhlApiConfiguration {
 
     private String getTeamUrl() {
         return url + team;
+    }
+
+    public String getStandings() {
+        return url + standings;
     }
 }

@@ -11,7 +11,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamInfoEntity {
 
     private int id;

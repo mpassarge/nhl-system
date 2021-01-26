@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.passargecorp.nhl.dto.team.TeamWrapperDto;
 import com.passargecorp.nhl.entity.schedule.GameEntity;
+import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
 import com.passargecorp.nhl.repository.NhlRepository;
 import com.passargecorp.nhl.service.NhlService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +26,8 @@ public class NhlController {
     private static final Logger logger = LoggerFactory.getLogger(NhlController.class);
     private static final String DATE_PATTERN_STRING = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
-    private NhlRepository nhlRepository;
-    private NhlService nhlService;
+    private final NhlRepository nhlRepository;
+    private final NhlService nhlService;
 
     @GetMapping("/games")
     public ResponseEntity<List<GameEntity>> getScheduleByDate(@RequestParam final String date) {
@@ -40,5 +42,11 @@ public class NhlController {
     @GetMapping("/teams")
     public ResponseEntity<TeamWrapperDto> getTeams() {
         return ResponseEntity.ok(nhlRepository.getTeams());
+    }
+
+    @GetMapping("/standings")
+    public ResponseEntity<List<DivisionStandingsEntity>> getDivisionStandingsEntity() {
+        final List<DivisionStandingsEntity> divisionStandings = nhlService.getDivisionStandings();
+        return ResponseEntity.ok(divisionStandings);
     }
 }
