@@ -1,12 +1,14 @@
 package com.passargecorp.nhl.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.passargecorp.nhl.dto.team.TeamWrapperDto;
 import com.passargecorp.nhl.entity.schedule.GameEntity;
-import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
+import com.passargecorp.nhl.entity.standings.TeamStatsEntity;
 import com.passargecorp.nhl.repository.NhlRepository;
 import com.passargecorp.nhl.service.NhlService;
+import com.passargecorp.nhl.util.StandingsUtil;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -32,7 +34,7 @@ public class NhlController {
     @GetMapping("/games")
     public ResponseEntity<List<GameEntity>> getScheduleByDate(@RequestParam final String date) {
         logger.info("Received request for games for date {}", date);
-        
+
         // Validate Date Pattern
         Validate.matchesPattern(date, DATE_PATTERN_STRING, "Date does not match pattern", date);
 
@@ -44,9 +46,15 @@ public class NhlController {
         return ResponseEntity.ok(nhlRepository.getTeams());
     }
 
+    // TODO: REFACTOR!!!!!!
     @GetMapping("/standings")
-    public ResponseEntity<List<DivisionStandingsEntity>> getDivisionStandingsEntity() {
-        final List<DivisionStandingsEntity> divisionStandings = nhlService.getDivisionStandings();
-        return ResponseEntity.ok(divisionStandings);
+    public ResponseEntity<Map<String, List<TeamStatsEntity>>> getDivisionStandingsEntity() {
+        return ResponseEntity.ok(nhlService.getDivisionStandings().getTeamStats());
+    }
+
+    // TODO: REFACTOR!!!!!!
+    @GetMapping("/standings/{division}")
+    public ResponseEntity<List<TeamStatsEntity>> getDivisionStandingsByDivision(@PathVariable final String division) {
+        return ResponseEntity.ok(StandingsUtil.getTeamStatsEntityFromDivision(division, nhlService.getDivisionStandings()));
     }
 }

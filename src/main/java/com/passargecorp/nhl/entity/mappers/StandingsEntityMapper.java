@@ -2,7 +2,9 @@ package com.passargecorp.nhl.entity.mappers;
 
 import static com.passargecorp.nhl.entity.mappers.CommonMappers.teamInfoDtoToTeamInfoEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.passargecorp.nhl.dto.standings.RecordsDto;
@@ -11,14 +13,14 @@ import com.passargecorp.nhl.dto.standings.TeamRecords;
 import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
 import com.passargecorp.nhl.entity.standings.TeamStatsEntity;
 
-public class StandingsEntityMapper {
+public final class StandingsEntityMapper {
 
-    public static List<DivisionStandingsEntity> standingsDtoToDivisionStandingsEntityList(final StandingsDto standings) {
-        return standings.getRecords().stream().map(StandingsEntityMapper::recordsDtoToTeamStatsEntity).collect(Collectors.toList());
-    }
-
-    private static DivisionStandingsEntity recordsDtoToTeamStatsEntity(final RecordsDto record) {
-        return new DivisionStandingsEntity(record.getDivision().getName(), teamRecordsToTeamStatsEntity(record.getTeamRecords()));
+    public static DivisionStandingsEntity standingsDtoToDivisionStandingsEntityList(final StandingsDto standings) {
+        final Map<String, List<TeamStatsEntity>> map = new HashMap<>();
+        for (RecordsDto record : standings.getRecords()) {
+            map.put(createKey(record.getDivision().getName()), teamRecordsToTeamStatsEntity(record.getTeamRecords()));
+        }
+        return new DivisionStandingsEntity(map);
     }
 
     private static List<TeamStatsEntity> teamRecordsToTeamStatsEntity(final List<TeamRecords> teamRecords) {
@@ -27,5 +29,9 @@ public class StandingsEntityMapper {
 
     private static TeamStatsEntity teamRecordToTeamStatsEntity(final TeamRecords teamRecords) {
         return new TeamStatsEntity(teamInfoDtoToTeamInfoEntity(teamRecords.getTeam()), teamRecords.getPoints());
+    }
+
+    private static String createKey(final String key) {
+        return key.toLowerCase().replace(" ", "-");
     }
 }

@@ -1,21 +1,23 @@
 package com.passargecorp.nhl.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.passargecorp.nhl.dto.schedule.GameDateDto;
 import com.passargecorp.nhl.dto.schedule.ScheduleDto;
 import com.passargecorp.nhl.dto.standings.StandingsDto;
+import com.passargecorp.nhl.entity.mappers.GameEntityMappers;
 import com.passargecorp.nhl.entity.mappers.StandingsEntityMapper;
 import com.passargecorp.nhl.entity.schedule.GameEntity;
-import com.passargecorp.nhl.entity.mappers.GameEntityMappers;
 import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
-import com.passargecorp.nhl.repository.ScheduleGameCacheRepository;
 import com.passargecorp.nhl.repository.NhlRepository;
+import com.passargecorp.nhl.repository.ScheduleGameCacheRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,14 +25,14 @@ import org.springframework.stereotype.Service;
 public class NhlService {
 
     private static final Logger logger = LoggerFactory.getLogger(NhlService.class);
-    private static final List<String> DIVISIONS_LIST = Arrays.asList("central", "east", "north", "west");
+    private static final String STANDINGS_CACHE = "standings";
 
     private final ScheduleGameCacheRepository gameCacheRepository;
     private final NhlRepository nhlRepository;
 
-    public List<GameEntity> getGamesByDate(final String date){
+    public List<GameEntity> getGamesByDate(final String date) {
 
-        if(gameCacheRepository.contains(date)){
+        if (gameCacheRepository.contains(date)) {
             return gameCacheRepository.getGameEntity(date);
         }
 
@@ -44,14 +46,19 @@ public class NhlService {
         return games;
     }
 
-    public List<DivisionStandingsEntity> getDivisionStandings() {
+    @Cacheable(STANDINGS_CACHE)
+    public DivisionStandingsEntity getDivisionStandings() {
         final StandingsDto standingsDto = nhlRepository.getStandings();
         return StandingsEntityMapper.standingsDtoToDivisionStandingsEntityList(standingsDto);
     }
 
+    @CacheEvict(allEntries = true, value = STANDINGS_CACHE)
+    @Scheduled(cron = "0 7 * * * *", zone = "America/New_York")
+    public void clearCache() {
+    }
+
     private void validateScheduleDto(final ScheduleDto scheduleDto) {
         final List<GameDateDto> gameDates = scheduleDto.getGameDates();
-
         // Must only be a  single gameDate;
         final int gameDatesSize = gameDates.size();
         Validate.isTrue(gameDatesSize == 1, "", gameDatesSize);

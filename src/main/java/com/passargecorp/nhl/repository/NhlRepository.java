@@ -4,7 +4,6 @@ import com.passargecorp.nhl.configuration.NhlApiConfiguration;
 import com.passargecorp.nhl.dto.schedule.ScheduleDto;
 import com.passargecorp.nhl.dto.standings.StandingsDto;
 import com.passargecorp.nhl.dto.team.TeamWrapperDto;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
@@ -29,6 +28,7 @@ public class NhlRepository {
     }
 
     public StandingsDto getStandings() {
+        System.out.println("in the repo");
         return restTemplate.getForObject(nhlApiConfiguration.getStandings(), StandingsDto.class);
     }
 }
