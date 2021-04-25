@@ -16,4 +16,5 @@ public class TeamStatsEntity {
     @JsonUnwrapped
     private TeamInfoEntity teamInfo;
     private int points;
+    private int gamesPlayed;
 }

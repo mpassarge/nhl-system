@@ -28,7 +28,7 @@ public final class StandingsEntityMapper {
     }
 
     private static TeamStatsEntity teamRecordToTeamStatsEntity(final TeamRecords teamRecords) {
-        return new TeamStatsEntity(teamInfoDtoToTeamInfoEntity(teamRecords.getTeam()), teamRecords.getPoints());
+        return new TeamStatsEntity(teamInfoDtoToTeamInfoEntity(teamRecords.getTeam()), teamRecords.getPoints(), teamRecords.getGamesPlayed());
     }
 
     private static String createKey(final String key) {
