@@ -1,21 +1,19 @@
 package com.passargecorp.nhl.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.passargecorp.nhl.dto.team.TeamWrapperDto;
 import com.passargecorp.nhl.entity.schedule.GameEntity;
-import com.passargecorp.nhl.entity.standings.TeamStatsEntity;
+import com.passargecorp.nhl.entity.standings.StandingsEntity;
 import com.passargecorp.nhl.repository.NhlRepository;
 import com.passargecorp.nhl.service.NhlService;
-import com.passargecorp.nhl.util.StandingsUtil;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,13 +46,14 @@ public class NhlController {
 
     // TODO: REFACTOR!!!!!!
     @GetMapping("/standings")
-    public ResponseEntity<Map<String, List<TeamStatsEntity>>> getDivisionStandingsEntity() {
-        return ResponseEntity.ok(nhlService.getDivisionStandings().getTeamStats());
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<StandingsEntity> getDivisionStandingsEntity() {
+        return ResponseEntity.ok(nhlService.getDivisionStandings());
     }
 
-    // TODO: REFACTOR!!!!!!
-    @GetMapping("/standings/{division}")
-    public ResponseEntity<List<TeamStatsEntity>> getDivisionStandingsByDivision(@PathVariable final String division) {
-        return ResponseEntity.ok(StandingsUtil.getTeamStatsEntityFromDivision(division, nhlService.getDivisionStandings()));
-    }
+//    // TODO: REFACTOR!!!!!!
+//    @GetMapping("/standings/{division}")
+//    public ResponseEntity<List<TeamStatsEntity>> getDivisionStandingsByDivision(@PathVariable final String division) {
+//        return ResponseEntity.ok(StandingsUtil.getTeamStatsEntityFromDivision(division, nhlService.getDivisionStandings()));
+//    }
 }

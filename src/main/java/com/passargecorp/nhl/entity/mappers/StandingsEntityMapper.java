@@ -2,25 +2,25 @@ package com.passargecorp.nhl.entity.mappers;
 
 import static com.passargecorp.nhl.entity.mappers.CommonMappers.teamInfoDtoToTeamInfoEntity;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.passargecorp.nhl.dto.standings.RecordsDto;
 import com.passargecorp.nhl.dto.standings.StandingsDto;
 import com.passargecorp.nhl.dto.standings.TeamRecords;
 import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
+import com.passargecorp.nhl.entity.standings.StandingsEntity;
 import com.passargecorp.nhl.entity.standings.TeamStatsEntity;
 
 public final class StandingsEntityMapper {
 
-    public static DivisionStandingsEntity standingsDtoToDivisionStandingsEntityList(final StandingsDto standings) {
-        final Map<String, List<TeamStatsEntity>> map = new HashMap<>();
-        for (RecordsDto record : standings.getRecords()) {
-            map.put(createKey(record.getDivision().getName()), teamRecordsToTeamStatsEntity(record.getTeamRecords()));
+    public static StandingsEntity standingsDtoToStandingsEntity(final StandingsDto standingsDto) {
+        final List<DivisionStandingsEntity> divisionStandings = new ArrayList<>();
+        for (final RecordsDto recordsDto : standingsDto.getRecords()) {
+            divisionStandings.add(new DivisionStandingsEntity(createKey(recordsDto.getDivision().getName()), teamRecordsToTeamStatsEntity(recordsDto.getTeamRecords())));
         }
-        return new DivisionStandingsEntity(map);
+        return new StandingsEntity(divisionStandings);
     }
 
     private static List<TeamStatsEntity> teamRecordsToTeamStatsEntity(final List<TeamRecords> teamRecords) {

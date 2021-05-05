@@ -8,7 +8,7 @@ import com.passargecorp.nhl.dto.standings.StandingsDto;
 import com.passargecorp.nhl.entity.mappers.GameEntityMappers;
 import com.passargecorp.nhl.entity.mappers.StandingsEntityMapper;
 import com.passargecorp.nhl.entity.schedule.GameEntity;
-import com.passargecorp.nhl.entity.standings.DivisionStandingsEntity;
+import com.passargecorp.nhl.entity.standings.StandingsEntity;
 import com.passargecorp.nhl.repository.NhlRepository;
 import com.passargecorp.nhl.repository.ScheduleGameCacheRepository;
 import lombok.AllArgsConstructor;
@@ -47,9 +47,9 @@ public class NhlService {
     }
 
     @Cacheable(STANDINGS_CACHE)
-    public DivisionStandingsEntity getDivisionStandings() {
+    public StandingsEntity getDivisionStandings() {
         final StandingsDto standingsDto = nhlRepository.getStandings();
-        return StandingsEntityMapper.standingsDtoToDivisionStandingsEntityList(standingsDto);
+        return StandingsEntityMapper.standingsDtoToStandingsEntity(standingsDto);
     }
 
     @CacheEvict(allEntries = true, value = STANDINGS_CACHE)
