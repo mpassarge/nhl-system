@@ -7,11 +7,11 @@ import lombok.Getter;
 import lombok.ToString;
 
 @AllArgsConstructor
-//@NoArgsConstructor
 @Getter
 @ToString
 public class DivisionStandingsEntity {
 
     private final String divisionName;
+    private final int id;
     private final List<TeamStatsEntity> teams;
 }

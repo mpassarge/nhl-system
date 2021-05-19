@@ -18,7 +18,7 @@ public final class StandingsEntityMapper {
     public static StandingsEntity standingsDtoToStandingsEntity(final StandingsDto standingsDto) {
         final List<DivisionStandingsEntity> divisionStandings = new ArrayList<>();
         for (final RecordsDto recordsDto : standingsDto.getRecords()) {
-            divisionStandings.add(new DivisionStandingsEntity(createKey(recordsDto.getDivision().getName()), teamRecordsToTeamStatsEntity(recordsDto.getTeamRecords())));
+            divisionStandings.add(new DivisionStandingsEntity(createKey(recordsDto.getDivision().getName()), recordsDto.getDivision().getId(), teamRecordsToTeamStatsEntity(recordsDto.getTeamRecords())));
         }
         return new StandingsEntity(divisionStandings);
     }
